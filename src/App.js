@@ -50,7 +50,7 @@ const tempWatchedData = [
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
-const KEY = "12b4fdd3";
+const REACT_APP_OMDB_API_KEY = "12b4fdd3";
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState(tempMovieData);
@@ -72,7 +72,7 @@ export default function App() {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&s=${query}`
           );
           if (!res.ok) throw new Error("Failed to fetch");
           const data = await res.json();
