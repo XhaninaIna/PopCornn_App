@@ -263,7 +263,7 @@ function MovieDetails({ selectedId, onCloseMovie }) {
         //kerkese per dergim te dhenash
         setIsLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+          `http://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&i=${selectedId}`
         );
         {
           /*i per id */
