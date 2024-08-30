@@ -72,7 +72,7 @@ export default function App() {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&s=${query}`
+             `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&i=${selectedId}`
           );
           if (!res.ok) throw new Error("Failed to fetch");
           const data = await res.json();
@@ -263,7 +263,7 @@ function MovieDetails({ selectedId, onCloseMovie }) {
         //kerkese per dergim te dhenash
         setIsLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&i=${selectedId}`
+           `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&i=${selectedId}`
         );
         {
           /*i per id */
