@@ -65,36 +65,36 @@ export default function App() {
   function handleCloseMovie() {
     setSelectedId(null);
   }
-  useEffect(
-    function () {
-      async function getMovies() {
-        try {
-          setIsLoading(true);
-          setError("");
-          const res = await fetch(
-             `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&i=${selectedId}`
-          );
-          if (!res.ok) throw new Error("Failed to fetch");
-          const data = await res.json();
-          if (data.Response === "False") throw new Error("Movie not found");
-          setMovies(data.Search);
-          console.log(data);
-        } catch (err) {
-          console.error(err.message);
-          setError(err.message);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-      if (query.length < 3) {
-        setMovies([]);
+ useEffect(
+  function () {
+    async function getMovies() {
+      try {
+        setIsLoading(true);
         setError("");
-        return;
+        const res = await fetch(
+          `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&s=${query}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        if (data.Response === "False") throw new Error("Movie not found");
+        setMovies(data.Search);
+      } catch (err) {
+        console.error(err.message);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
       }
-      getMovies();
-    },
-    [query]
-  );
+    }
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    getMovies();
+  },
+  [query]
+);
+
   return (
     <>
       <NavBar>
@@ -257,28 +257,31 @@ function MovieDetails({ selectedId, onCloseMovie }) {
     imdbRating,
     Runtime,
   } = movie;
+
   useEffect(
-    function () {
-      async function getMovieDetails() {
-        //kerkese per dergim te dhenash
-        setIsLoading(true);
+  function () {
+    async function getMovieDetails() {
+      if (!selectedId) return;
+
+      setIsLoading(true);
+      try {
         const res = await fetch(
-           `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&i=${selectedId}`
+          `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB_API_KEY}&i=${selectedId}`
         );
-        {
-          /*i per id */
-        }
+        if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         setMovie(data);
-        //jan marr te dhenat
+      } catch (err) {
+        console.error(err.message);
+      } finally {
         setIsLoading(false);
-        console.log(data);
       }
+    }
+    getMovieDetails();
+  },
+  [selectedId]
+);
 
-      getMovieDetails();
-    },
-    [selectedId]
-  );
   return (
     <>
       {isLoading ? (
